@@ -45,7 +45,7 @@ jobs:
 
   package:
     needs: [build, plan]
-    runs-on: macos-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -69,7 +69,7 @@ jobs:
       - uses: levibostian/action-hide-sensitive-inputs@v1
 
       - name: Setup
-        run: brew install ldid dpkg
+        run: /home/linuxbrew/.linuxbrew/bin/brew install ldid
 
       - name: YouTube
         env:
@@ -96,7 +96,7 @@ jobs:
         run: |
           mkdir deb-root
           dpkg-deb -x packages/*.deb deb-root
-          export LDID="$(brew --prefix)/bin/ldid"
+          export LDID="/home/linuxbrew/.linuxbrew/bin/ldid"
           tweak_version="$(awk '/^Version:/ {print $2}' control)"
           youtube_version="$(python3 - <<'PY'
           import plistlib
